@@ -1,0 +1,16 @@
+{
+  "name": "node-angular-blog",
+  "version": "0.0.1",
+  "mongooseConn": "mongodb://localhost/test",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "latest",
+    "q": "latest",
+    "mongoose": "latest",
+    "request": "latest",
+    "less-middleware": "*"
+  }
+}

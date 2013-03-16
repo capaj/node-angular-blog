@@ -1,0 +1,14 @@
+<input type="text" placeholder="Post heading" ng-model="post.title">
+<textarea ui-tinymce ng-model="post.text"></textarea>
+<p>Preview:</p>
+<article class="well">
+    <h3>{{post.title}}</h3>
+    <div ng-bind-html-unsafe="post.text"></div>
+    <footer>
+        <b>&copy;{{post.author}}</b>
+    </footer>
+</article>
+<!--<button ng-click="create()" class="btn-primary btn-large" ng-show="create">Create</button>-->
+<!--<button ng-click="saveChanges()" class="btn-primary btn-large" ng-show="saveChanges">Save Changes</button>-->
+<button ng-click="create()" class="btn-primary btn-large" >Create</button>
+<button ng-click="saveChanges()" class="btn-primary btn-large" >Save Changes</button>

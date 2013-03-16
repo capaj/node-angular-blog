@@ -1,0 +1,9 @@
+<article ng-repeat="post in posts">
+    <h3>{{post.title}}</h3>
+    <div ng-bind-html-unsafe="post.text"></div>
+    <footer>
+        <b>&copy;{{post.author}}</b>
+        <button class="btn-small pull-right" ng-click="editPost(post)" ng-show="isAdmin">Edit this</button>
+        <button class="btn-danger pull-right" ng-click="deletePost(post)" ng-show="isAdmin">Delete</button>
+    </footer>
+</article>

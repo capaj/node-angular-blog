@@ -1,0 +1,47 @@
+/*=============================================================================*/
+/*
+  Name: MY UTILITIES
+  Author: Bronislav Churý
+  Author URL: http://www.bronislavchury.cz
+  Note: All content are copyrighted by author. Please, don't steal anything.
+*/
+/*=============================================================================*/
+
+
+.bold {font-weight: bold;}
+.italic {font-style: italic;}
+.underline {text-decoration: underline}
+.help {cursor: help; border-bottom: 1px dotted #ccc !important;}
+.justify {text-align: justify !important;}
+.center {text-align: center;}
+.alignRight {text-align: right;}
+
+.left {float: left;}
+.right {float: right;}
+
+.hide {display: none;}
+
+.red {color: #c30000;}
+.green {color: #b1e60c;}  
+.grey {color: #666 !important;}
+.black {color: #333 !important;}
+.blue {color: #2f8fc2 !important;}
+.gold {color: #ffc57e !important;}
+.orange {color: #ffc600 !important;}
+
+.relative {position: relative;}
+.absolute {position: absolute;}
+
+
+.corners3 {-moz-border-radius: 3px; -webkit-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px;}
+.corners5 {-moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px;}
+.corners8 {-moz-border-radius: 8px; -webkit-border-radius: 8px; -o-border-radius: 8px; border-radius: 8px;}
+.corners10 {-moz-border-radius: 10px; -webkit-border-radius: 10px; -o-border-radius: 10px; border-radius: 10px;}
+
+.bgOverlay {background: url('../design/layout/bgOverlay.png') !important;}
+
+.textShadow {text-shadow: 1px 1px 0px #6a2513;}
+
+::selection {background: #ffebca;}
+::-moz-selection {background: #ffebca;}
+

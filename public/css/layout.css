@@ -1,0 +1,46 @@
+@import url('reset.css');
+@import url('bootstrap.css');
+@import url('smoothness/ui.css');
+
+/*==========================================================================================*/
+/* STRCUTURE */
+
+/*
+  1} Body 
+  2} Header
+  3} Home Page
+  4} Left panel (Sidebar)
+  5} Content
+  6} Tables
+  7} Footer
+*/
+/*==========================================================================================*/
+
+
+
+/*==========================================================================================*/
+/*===================================== 1} BODY ============================================*/
+/*==========================================================================================*/
+
+BODY {font-family: "Arial", sans-serif; background: #FFF;  font-size:13px; height: 100%;}
+BODY { -webkit-font-smoothing: antialiased; }
+
+
+.border {border: 2px solid #444;}
+
+.center {text-align: center;}
+
+.relative {position: relative;}
+.absolute {position: absolute;}
+
+.span12 {margin-left: 0;}
+
+
+.thumbnails li {float: left;}
+.thumbnails li a img {max-height: 200px;}
+
+  a.on {
+            color: #CC0000 ;
+            font-weight: bold ;
+            text-decoration: none ;
+            }
