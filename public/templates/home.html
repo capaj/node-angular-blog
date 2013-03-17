@@ -8,16 +8,10 @@
     </footer>
 </article>
 <div class="pageFooter">
-    <div class="pagination pagination-centered">
-        <ul>
-            <li ng-class="{disabled: page.num == currentPage}" ng-repeat="page in postsPagination">
-                <a class="btn-link" ng-click="goToPage(page)" ng-bind="page+1"></a>
-            </li>
-        </ul>
-        <div class="btn-group pull-right">
-            Posts on one page:
-            <button class="btn" ng-bind="size" ng-repeat="size in pageSizeOptions" ng-click="setPageSize(size)"></button>
-        </div>
+    <pagination num-pages="pagination.pageCount" current-page="pagination.currentPage" class="pagination pagination-centered"
+                previous-text="&laquo;" next-text="&raquo;" on-select-page="pagination.goToPage" max-size="12"></pagination>
+    Posts on one page:
+    <div class="btn-group pull-right">
+        <button class="btn" ng-bind="size" ng-repeat="size in pagination.pageSizeOptions" ng-click="pagination.setPageSize(size)"></button>
     </div>
-
 </div>

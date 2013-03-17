@@ -1,7 +1,7 @@
 
 'use strict';
 
-var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui'])
+var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.bootstrap'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 
         $locationProvider.html5Mode(true);
@@ -75,19 +75,31 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui'])
 app.controller('home', function($scope, $resource, $location, $http) {
     //$scope.posts = $resource;
     var Posts = $resource('/posts/');
+    var pagination = $scope.pagination = {
 
-    $scope.pageSizeOptions = [5,10,20];
-    $scope.setPageSize = function(size){
-        $location.search('limit', size);
+        setPageSize: function (size) {
+            $location.search('limit', size);
+        },
+        goToPage: function (page) {
+            page--;
+            $location.search('skip', page * pagination.limit);
+        },
+        pageSizeOptions: [5,10,20],
+        limit: $location.search().limit || 5,
+        skip: $location.search().skip || 0
     };
-    $scope.onePageSize = $location.search().limit || 5;
+    pagination.currentPage = Math.floor(pagination.skip/pagination.limit)+1;
+    $http.get('/posts/count',  {
+        cache: true,
+        timeout: 30000
+    }).success(
+        function (count) {
+            pagination.pageCount = Math.floor(count/pagination.limit)+1;
 
-    $scope.goToPage = function(num){
-        $location.search('skip', num*$scope.onePageSize);
-    };
-    $scope.pageNum = $location.search().skip || 0;
+        }
+    );
 
-    $scope.posts = Posts.query({limit:$scope.onePageSize, skip:$scope.pageNum });
+    $scope.posts = Posts.query({limit:pagination.limit, skip:pagination.skip });
 
     $scope.deletePost = function (post) {
         var index = $scope.posts.indexOf(post);
@@ -104,20 +116,6 @@ app.controller('home', function($scope, $resource, $location, $http) {
         $location.search('_id', post._id)
 
     };
-
-    $scope.postsPagination = [];
-    $http.get('/posts/count',  {
-        cache: true,
-        timeout: 30000
-    }).success(
-        function (count) {
-            var index = Math.floor(count/$scope.onePageSize);
-            index++;
-            while(index--) {
-                $scope.postsPagination.unshift(index)
-            }
-        }
-    );
 
 
 });
