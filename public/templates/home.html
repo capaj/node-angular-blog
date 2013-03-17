@@ -11,7 +11,7 @@
     <div class="pagination pagination-centered">
         <ul>
             <li ng-class="{disabled: page.num == currentPage}" ng-repeat="page in postsPagination">
-                <a class="btn-link" ng-click="goToPage(page.num)" ng-bind="page+1"></a>
+                <a class="btn-link" ng-click="goToPage(page)" ng-bind="page+1"></a>
             </li>
         </ul>
         <div class="btn-group pull-right">

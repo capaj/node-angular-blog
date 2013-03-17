@@ -12,8 +12,7 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui'])
 
             $routeProvider.when('/', {
                 templateUrl   : '/templates/home.html',
-                controller : 'home',
-//                reloadOnSearch: false
+                controller : 'home'
             });
             $routeProvider.when('/static/:staticUrl', {
                 templateUrl   : '/templates/static/static.html',
@@ -81,8 +80,15 @@ app.controller('home', function($scope, $resource, $location, $http) {
     $scope.setPageSize = function(size){
         $location.search('limit', size);
     };
+    $scope.onePageSize = $location.search().limit || 5;
 
-    $scope.posts = Posts.query({limit:3, skip:3});
+    $scope.goToPage = function(num){
+        $location.search('skip', num*$scope.onePageSize);
+    };
+    $scope.pageNum = $location.search().skip || 0;
+
+    $scope.posts = Posts.query({limit:$scope.onePageSize, skip:$scope.pageNum });
+
     $scope.deletePost = function (post) {
         var index = $scope.posts.indexOf(post);
         post.$delete({_id: post._id}, function () {
@@ -99,7 +105,6 @@ app.controller('home', function($scope, $resource, $location, $http) {
 
     };
 
-    $scope.onePageSize = $location.search().limit || 5;
     $scope.postsPagination = [];
     $http.get('/posts/count',  {
         cache: true,
