@@ -71,10 +71,15 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
     }
 );
 
+app.factory('Post', function ($resource) {
+    var Post = $resource('/posts/');
+    Post.prototype.getMomentStamp = function () {
+        return moment(this.createdAt).calendar();
+    };
+    return Post;
+});
 
-app.controller('home', function($scope, $resource, $location, $http) {
-    //$scope.posts = $resource;
-    var Posts = $resource('/posts/');
+app.controller('home', function($scope, Post, $location, $http) {
     var pagination = $scope.pagination = {
 
         setPageSize: function (size) {
@@ -99,7 +104,7 @@ app.controller('home', function($scope, $resource, $location, $http) {
         }
     );
 
-    $scope.posts = Posts.query({limit:pagination.limit, skip:pagination.skip });
+    $scope.posts = Post.query({limit:pagination.limit, skip:pagination.skip });
 
     $scope.deletePost = function (post) {
         var index = $scope.posts.indexOf(post);
@@ -126,11 +131,10 @@ app.controller('main', function($scope) {
 
 });
 
-app.controller('edit', function($scope, author, $resource, $location ) {
-    var Posts = $resource('/posts/');
+app.controller('edit', function($scope, author, Post, $location ) {
     var query = $location.search();
     if (query._id) {
-        $scope.post = Posts.get({_id:query._id});
+        $scope.post = Post.get({_id:query._id});
         $scope.saveChanges = function () {
             Posts.save({_id: query._id} , $scope.post);
 //
@@ -139,7 +143,7 @@ app.controller('edit', function($scope, author, $resource, $location ) {
 //            });
         };
     } else {
-        $scope.post = new Posts({author: author.name});
+        $scope.post = new Post({author: author.name, createdAt: moment()});
         $scope.author = author;
         $scope.create = function () {
             $scope.post.$save(function () {
