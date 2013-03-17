@@ -13,7 +13,7 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui'])
             $routeProvider.when('/', {
                 templateUrl   : '/templates/home.html',
                 controller : 'home',
-                reloadOnSearch: false
+//                reloadOnSearch: false
             });
             $routeProvider.when('/static/:staticUrl', {
                 templateUrl   : '/templates/static/static.html',
@@ -73,10 +73,16 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui'])
 );
 
 
-app.controller('home', function($scope, $resource, $location) {
+app.controller('home', function($scope, $resource, $location, $http) {
     //$scope.posts = $resource;
     var Posts = $resource('/posts/');
-    $scope.posts = Posts.query();
+
+    $scope.pageSizeOptions = [5,10,20];
+    $scope.setPageSize = function(size){
+        $location.search('limit', size);
+    };
+
+    $scope.posts = Posts.query({limit:3, skip:3});
     $scope.deletePost = function (post) {
         var index = $scope.posts.indexOf(post);
         post.$delete({_id: post._id}, function () {
@@ -92,6 +98,22 @@ app.controller('home', function($scope, $resource, $location) {
         $location.search('_id', post._id)
 
     };
+
+    $scope.onePageSize = $location.search().limit || 5;
+    $scope.postsPagination = [];
+    $http.get('/posts/count',  {
+        cache: true,
+        timeout: 30000
+    }).success(
+        function (count) {
+            var index = Math.floor(count/$scope.onePageSize);
+            index++;
+            while(index--) {
+                $scope.postsPagination.unshift(index)
+            }
+        }
+    );
+
 
 });
 

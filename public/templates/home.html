@@ -7,3 +7,17 @@
         <button class="btn-danger pull-right" ng-click="deletePost(post)" ng-show="isAdmin">Delete</button>
     </footer>
 </article>
+<div class="pageFooter">
+    <div class="pagination pagination-centered">
+        <ul>
+            <li ng-class="{disabled: page.num == currentPage}" ng-repeat="page in postsPagination">
+                <a class="btn-link" ng-click="goToPage(page.num)" ng-bind="page+1"></a>
+            </li>
+        </ul>
+        <div class="btn-group pull-right">
+            Posts on one page:
+            <button class="btn" ng-bind="size" ng-repeat="size in pageSizeOptions" ng-click="setPageSize(size)"></button>
+        </div>
+    </div>
+
+</div>

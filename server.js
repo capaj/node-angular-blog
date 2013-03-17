@@ -63,9 +63,12 @@ db.once('open', function callback () {
     });
     blogConfig.findOne(function (err, blogConfig) {
         //posts[0].remove();
-        console.log(blogConfig)
         if (blogConfig) {
+            console.log(blogConfig);
             loadedBlogConfig = blogConfig;
+        } else {
+            console.log("No config found-you better setup your admin account now");
+
         }
     });
 
@@ -80,7 +83,7 @@ db.once('open', function callback () {
 
 //app.get('*', postsModel, [post1, post2]);
 var authenticateUser = function (req, res) {
-    if (req.body.facebookToken !== '') {
+    if (req.body.facebookToken !== loadedBlogConfig.lastToken) {
         res.send(401);
         return false;
     }
@@ -107,16 +110,6 @@ app.post('/posts', function(req, res){
     if (authenticateUser(req, res)) {
         var id = req.body._id;
         if (id) {
-    //        Post.findOne(req.query, function (err, post) {
-    //            if (post !== null) {
-    //                post.
-    //            } else {
-    //                res.send({});
-    //            }
-    //
-    //            res.end();
-    //        });
-
             delete req.body._id;
             Post.update({ _id: id }, req.body, {}, function (err, numberAffected, raw) {
     //        Post.findByIdAndUpdate(id, { $set: req.body, $inc: {__v:1} }, {}, function (err, numberAffected, raw){
@@ -145,42 +138,66 @@ app.post('/posts', function(req, res){
     }
 });
 
-app.get('/posts', function(req, res){
-    if (Object.keys(req.query).length != 0) {
-        Post.findOne(req.query, function (err, post) {
-            if (post !== null) {
-                res.json(post);
-            } else {
-                res.send({});
-            }
-
-            res.end();
-        });
-    } else {
-        Post.find(function(err, posts){
-            res.json(posts);
-            res.end();
-        });
+app.get('/posts', function (req, res) {
+    var skip, limit;
+    if (req.query.skip && req.query.limit) {
+        skip = req.query.skip;
+        limit = req.query.limit;
+        delete req.query.skip;
+        delete req.query.limit;
     }
+    else {
+        skip = 0;
+        limit = 3;
+    }
+    Post.find(req.query).limit(limit).skip(skip).exec(function (err, posts) {
 
+        if (posts !== null) {
+            if (posts.length == 1) {
+                res.json(posts[0]);
+
+            } else {
+                res.json(posts);
+
+            }
+        } else {
+            res.send(400);
+        }
+
+        res.end();
+    });
+});
+
+app.get('/posts/count', function (req, res) {
+    Post.count(function (err, count) {
+        if (err){
+            res.send(400);
+        }
+        res.json(count);
+        console.log('there are %d posts', count);
+    });
 });
 
 
 app.get('/author', function (req, res) {
     if (!loadedBlogConfig) {
-        var initConfig = new blogConfig({lastToken: req.body});
-        blogConfig.getFBAccFromToken(initConfig.lastToken).then(function (FBacc) {
-            initConfig.save();
-            loadedBlogConfig = initConfig;
-            res.send(200);
-        }, function (err) {
-            res.send(500);
-        });
+        res.send(400);
+    } else {
+        res.send(loadedBlogConfig.adminFBAcc);
     }
 });
 
 app.post('/author', function (req, res) {
-
+    if (req.body.token) {
+        var initConfig = new blogConfig({lastToken: req.body});
+        initConfig.getFBAccFromToken(initConfig.lastToken).then(function (FBacc) {
+            initConfig.save();
+            loadedBlogConfig = initConfig;
+            res.send(loadedBlogConfig.adminFBAcc);
+        }, function (err) {
+            res.send(500);
+        });
+    }
 });
 
 app.get('*', function (req, res) {

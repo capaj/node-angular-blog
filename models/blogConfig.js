@@ -29,7 +29,9 @@ var blogConfig = mongoose.Schema({
 
 blogConfig.methods.getFBAccFromToken = function (token) {
     var deferred = Q.defer();
-    request('https://graph.facebook.com/me?access_token=' + token + '&fields=id,first_name,last_name,gender,link,installed,verified,picture,currency', function (error, response, body) {
+    request('https://graph.facebook.com/me?access_token=' + token +
+        '&fields=id,first_name,last_name,gender,link,installed,verified,picture,currency',
+        function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var fbAccDetails = JSON.parse(body);
             this.adminFBAcc = new FBAccount(fbAccDetails);
