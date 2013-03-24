@@ -72,58 +72,15 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
 );
 
 app.factory('Post', function ($resource) {
-    var Post = $resource('/posts/');
+    var Post = $resource('/posts/', {}, {
+        queryWithTag: { method: "POST", isArray:true }
+    });
     Post.prototype.getMomentStamp = function () {
         return moment(this.createdAt).calendar();
     };
     return Post;
 });
 
-app.controller('home', function($scope, Post, $location, $http) {
-    var pagination = $scope.pagination = {
-
-        setPageSize: function (size) {
-            $location.search('limit', size);
-        },
-        goToPage: function (page) {
-            page--;
-            $location.search('skip', page * pagination.limit);
-        },
-        pageSizeOptions: [5,10,20],
-        limit: $location.search().limit || 5,
-        skip: $location.search().skip || 0
-    };
-    pagination.currentPage = Math.floor(pagination.skip/pagination.limit)+1;
-    $http.get('/posts/count',  {
-        cache: true,
-        timeout: 30000
-    }).success(
-        function (count) {
-            pagination.pageCount = Math.floor(count/pagination.limit)+1;
-
-        }
-    );
-
-    $scope.posts = Post.query({limit:pagination.limit, skip:pagination.skip });
-
-    $scope.deletePost = function (post) {
-        var index = $scope.posts.indexOf(post);
-        post.$delete({_id: post._id}, function () {
-            $scope.posts.splice(index, 1);
-            console.log("a post deleted");
-        }, function () {
-            console.error("err occured while deleting");
-        });
-    };
-
-    $scope.editPost = function (post) {
-        $location.path('/posts/edit');
-        $location.search('_id', post._id)
-
-    };
-
-
-});
 
 app.controller('main', function($scope) {
   $scope.isAdmin = true;

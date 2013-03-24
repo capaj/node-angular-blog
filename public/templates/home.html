@@ -1,12 +1,22 @@
+<div class="alert alert-info" ui-if="browsedTags.length"> Currently browsing tag/s:
+    <a href="/?tag={{tag}}" ng-repeat="tag in browsedTags"><span class="label label-info" ng-bind="tag"></span></a>
+    <a class="btn btn-warning btn-small pull-right">Remove this tag filter</a>
+</div>
 <article ng-repeat="post in posts" class="post">
     <button class="btn-small pull-right" ng-click="editPost(post)" ng-show="isAdmin">Edit this</button>
     <button class="btn-danger pull-right" ng-click="deletePost(post)" ng-show="isAdmin">Delete</button>
     <h3>{{post.title}}</h3>
     <div ng-bind-html-unsafe="post.text"></div>
     <footer>
-        <div class="pull-right">
-            Published: <b><span ng-bind="post.getMomentStamp()"></span></b>
-        </div>
+        <p>
+            <div class="tags" ng-show="post.tags">
+            Tags:
+                <a href="/?tag={{tag.name}}" ng-repeat="tag in post.tags"><span class="label label-info" ng-bind="tag.name"></span></a>
+            </div>
+            <div class="pull-right">
+                Published: <b><span ng-bind="post.getMomentStamp()"></span></b>
+            </div>
+        </p>
     </footer>
 </article>
 <div class="pageFooter">
