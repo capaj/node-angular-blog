@@ -1,7 +1,7 @@
 var Post = require('../models/post.js');
 var Tag = require('../models/tag.js');
 var findTagsByNames = require('../apis/tags-api.js').findTagsByNames;
-var Q = require('q');
+
 module.exports = function (app) {
     app.delete('/posts', function(req, res) {
         if (authenticateUser(req, res)) {

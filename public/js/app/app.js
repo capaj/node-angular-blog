@@ -100,6 +100,13 @@ app.controller('edit', function($scope, author, Post, $location ) {
 //            });
         };
     } else {
+        $scope.tagsOpt = {
+            suggestions : ["there", "were", "some", "suggested", "terms", "super", "secret", "stuff"],
+//            restrictTo : ["restrict", "to", "these"],
+            whenAddingTag : function (tag) {
+                console.log(tag);
+            }
+        };
         $scope.post = new Post({author: author.name, createdAt: moment()});
         $scope.author = author;
         $scope.create = function () {

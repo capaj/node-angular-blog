@@ -1,8 +1,11 @@
 <div class="editorBase">
     <input class="input-xxlarge" type="text" placeholder="Post heading" ng-model="post.title">
     <textarea ui-tinymce ng-model="post.text" class="editor"></textarea>
+    <p class="outsideText">Tags:</p>
+    <div class="tag-list" style="width:350px;" tags tagsdata="tagsOpt"><div class="tags"></div></div>
+    <p class="outsideText">Preview:</p>
 </div>
-<p class="outsideText">Preview:</p>
+
 <article class="post">
     <h3>{{post.title}}</h3>
     <div ng-bind-html-unsafe="post.text"></div>
@@ -14,5 +17,7 @@
 </article>
 <!--<button ng-click="create()" class="btn-primary btn-large" ng-show="create">Create</button>-->
 <!--<button ng-click="saveChanges()" class="btn-primary btn-large" ng-show="saveChanges">Save Changes</button>-->
-<button ng-click="create()" class="btn-primary btn-large" >Create</button>
-<button ng-click="saveChanges()" class="btn-primary btn-large" >Save Changes</button>
+<div class="editorBase">
+    <button ng-click="create()" class="btn-primary btn-large" >Create</button>
+    <button ng-click="saveChanges()" class="btn-primary btn-large" >Save Changes</button>
+</div>
