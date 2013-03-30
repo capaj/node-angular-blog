@@ -29,7 +29,7 @@ app.controller('home', function($scope, Post, $location, $http) {
     var calculatePagination = function (count) {
         pagination.pageCount = Math.floor(count/pagination.limit);
         if (count % pagination.limit !== 0) {
-            pagination++;
+            pagination.pageCount++;
         }
     };
     if ($scope.browsedTags.length === 0) {

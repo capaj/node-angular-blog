@@ -6,6 +6,14 @@ module.exports = {
     register: function (app) {
         //TODO expose getter for all Tags to make them accessible at edit screen
         //TODO expose put to be able to create new tags
+        app.get('/tags', function (req, res) {
+           Tag.find().exec(function (err, tags) {
+               if (err) {
+                   res.send(500);
+               }
+               res.json(tags);
+           })
+        });
     },
     findTagsByNames: function (arrOfTagNames, callback) {
         var promises = [];

@@ -2,9 +2,13 @@ var Post = require('../models/post.js');
 var Tag = require('../models/tag.js');
 var findTagsByNames = require('../apis/tags-api.js').findTagsByNames;
 
+var authentication = function (req, res) {
+    return true;
+};
+
 module.exports = function (app) {
     app.delete('/posts', function(req, res) {
-        if (authenticateUser(req, res)) {
+        if (authentication(req, res)) {
             if (Object.keys(req.query).length != 0) {
                 Post.remove(req.query, function(err, product){
                     if (err) return res.send(500);
@@ -34,7 +38,7 @@ module.exports = function (app) {
                 });
             });
         } else {
-            if (authenticateUser(req, res)) {
+            if (authentication(req, res)) {
                 if (req.body.hasOwnProperty('_id')) {   //editing post
                     var id = req.body._id;
                     delete req.body._id;
@@ -84,11 +88,11 @@ module.exports = function (app) {
         Post.find(req.query).limit(limit).skip(skip).populate('tags').exec(function (err, posts) {
 
             if (posts.hasOwnProperty('length')) {
-                if (posts.length == 1) {
-                    res.json(posts[0]);
+                if (req.query.hasOwnProperty('_id')) {
+                    res.json(posts[0]); //we need to return single item
 
                 } else {
-                    res.json(posts);
+                    res.json(posts);    // we are returning an array of items
 
                 }
             } else {

@@ -75,7 +75,7 @@ app.factory('Post', function ($resource) {
     var Post = $resource('/posts/', {}, {
         queryWithTag: { method: "POST", isArray:true }
     });
-    Post.prototype.getMomentStamp = function () {
+    Post.prototype.getMomentStamp = function () {   // for displaying when post was created
         return moment(this.createdAt).calendar();
     };
     return Post;
@@ -88,12 +88,12 @@ app.controller('main', function($scope) {
 
 });
 
-app.controller('edit', function($scope, author, Post, $location ) {
+app.controller('edit', function($scope, author, Post, $location, $resource ) {
     var query = $location.search();
     if (query._id) {
         $scope.post = Post.get({_id:query._id});
         $scope.saveChanges = function () {
-            Posts.save({_id: query._id} , $scope.post);
+            Post.save({_id: query._id} , $scope.post);
 //
 //            $scope.post.$save(function () {
 //                console.log("post changes saved: " + $scope.post);
@@ -107,8 +107,11 @@ app.controller('edit', function($scope, author, Post, $location ) {
                 console.log(tag);
             }
         };
-        $scope.post = new Post({author: author.name, createdAt: moment()});
-        $scope.author = author;
+        var Tag = $resource('/tags');
+        $scope.tags = Tag.query();
+        console.log($scope.tags);
+        $scope.post = new Post({createdAt: moment()});
+
         $scope.create = function () {
             $scope.post.$save(function () {
                 console.log("new post created: " + $scope.post);
