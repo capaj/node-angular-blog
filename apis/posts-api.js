@@ -24,20 +24,7 @@ module.exports = function (app) {
     });
 
     app.post('/posts', function(req, res){
-        if (req.body.hasOwnProperty('tags')) {
-            var tags = req.body.tags;
-            findTagsByNames(tags, function () {
-                Post.find({tags: {$in: tags}}).populate('tags').exec(function (err, posts) {
-                    if (err) {
-                        console.error(err);
-                        res.send(500);
-                        return;
-                    }
-//                    console.log(posts);
-                    res.json(posts);
-                });
-            });
-        } else {
+        if (req.body.hasOwnProperty('text')) {
             if (authentication(req, res)) {
                 if (req.body.hasOwnProperty('_id')) {   //editing post
                     var id = req.body._id;
@@ -66,6 +53,21 @@ module.exports = function (app) {
                         console.dir(product);
                     });
                 }
+            }
+        } else {
+            if (req.body.hasOwnProperty('tags')) {  //we just want to filter by some tags
+                var tags = req.body.tags;
+                findTagsByNames(tags, function () {
+                    Post.find({tags: {$in: tags}}).populate('tags').exec(function (err, posts) {
+                        if (err) {
+                            console.error(err);
+                            res.send(500);
+                            return;
+                        }
+//                    console.log(posts);
+                        res.json(posts);
+                    });
+                });
             }
         }
 

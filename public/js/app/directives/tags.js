@@ -5,7 +5,7 @@ app.directive('tags', function() {
         link: function(scope, element, attrs) {
             if (scope.tagsdata) {
                 $(element).tags(scope.tagsdata);
-
+                scope.tagsdata.data = $(element).data('tags'); // make tagsData object easily accesible from controller
             } else {
                 console.log("no tags data specified");
             }

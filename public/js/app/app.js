@@ -100,7 +100,7 @@ app.controller('edit', function($scope, author, Post, $location, $resource ) {
 //            });
         };
     } else {
-        $scope.tagsOpt = {
+        $scope.tagsD = {
             suggestions : ["there", "were", "some", "suggested", "terms", "super", "secret", "stuff"],
 //            restrictTo : ["restrict", "to", "these"],
             whenAddingTag : function (tag) {
@@ -113,6 +113,7 @@ app.controller('edit', function($scope, author, Post, $location, $resource ) {
         $scope.post = new Post({createdAt: moment()});
 
         $scope.create = function () {
+            $scope.post.tags = $scope.tagsD.data.getTags();
             $scope.post.$save(function () {
                 console.log("new post created: " + $scope.post);
             });

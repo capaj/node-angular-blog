@@ -548,7 +548,7 @@ function copy(source, destination){
     }
   } else {
     if (source === destination) throw Error("Can't copy equivalent objects or arrays");
-    if (isArray(source)) {
+      if (isArray(source) && isArray(destination)) {    //fix from https://github.com/joelwreed/angular.js/commit/764161054a5cbf6d2a2f8059dfa646f01e986fa2
       while(destination.length) {
         destination.pop();
       }
