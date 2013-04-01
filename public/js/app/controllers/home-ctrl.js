@@ -58,7 +58,7 @@ app.controller('home', function($scope, Post, $location, $http) {
     };
 
     $scope.editPost = function (post) {
-        $location.path('/posts/edit');
+        $location.path('/editpost');
         $location.search('_id', post._id)
 
     };

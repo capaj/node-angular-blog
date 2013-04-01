@@ -19,7 +19,7 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
                 controller : 'static',
                 reloadOnSearch: false
             });
-            $routeProvider.when('/posts/edit', {
+            $routeProvider.when('/editpost/', {
                 templateUrl   : '/templates/edit.html',
                 controller : 'edit',
                 reloadOnSearch: false
@@ -88,39 +88,6 @@ app.controller('main', function($scope) {
 
 });
 
-app.controller('edit', function($scope, author, Post, $location, $resource ) {
-    var query = $location.search();
-    if (query._id) {
-        $scope.post = Post.get({_id:query._id});
-        $scope.saveChanges = function () {
-            Post.save({_id: query._id} , $scope.post);
-//
-//            $scope.post.$save(function () {
-//                console.log("post changes saved: " + $scope.post);
-//            });
-        };
-    } else {
-        $scope.tagsD = {
-            suggestions : ["there", "were", "some", "suggested", "terms", "super", "secret", "stuff"],
-//            restrictTo : ["restrict", "to", "these"],
-            whenAddingTag : function (tag) {
-                console.log(tag);
-            }
-        };
-        var Tag = $resource('/tags');
-        $scope.tags = Tag.query();
-        console.log($scope.tags);
-        $scope.post = new Post({createdAt: moment()});
-
-        $scope.create = function () {
-            $scope.post.tags = $scope.tagsD.data.getTags();
-            $scope.post.$save(function () {
-                console.log("new post created: " + $scope.post);
-            });
-        }
-    }
-
-});
 
 app.service('author', function(){
     this.name = "capaj";

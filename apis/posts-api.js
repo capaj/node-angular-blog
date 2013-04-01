@@ -40,17 +40,16 @@ module.exports = function (app) {
                 } else {    //creating new post
 
                     var newPost = new Post(req.body);
-                    newPost.save(function (err, product) {
+                    newPost.save(function (err, savedPost) {
                         if (err) {
                             console.error("Following product failed to save:")
                             res.send(500);
 
                         }else{
-                            console.log("Following product was succesfully saved:");
-                            res.send(200);
+                            console.log("Following post was succesfully saved:" + savedPost);
+                            res.json(savedPost);
 
                         }
-                        console.dir(product);
                     });
                 }
             }

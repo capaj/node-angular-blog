@@ -14,6 +14,22 @@ module.exports = {
                res.json(tags);
            })
         });
+        app.post('/tags',function (req, res) {
+            if (req.body.hasOwnProperty('name')) {
+                var tag = new Tag({ name: req.body.name });
+                tag.save(function (err, savedTag) {
+                    if (err) {
+                        console.error("Tag "+req.body.name + " failed to save:");
+                        res.send(500);
+                    }else{
+                        console.log("Following tag was succesfully saved:" + savedTag);
+                        res.json(savedTag);
+                    }
+                })
+            } else {
+                res.send(500);
+            }
+        });
     },
     findTagsByNames: function (arrOfTagNames, callback) {
         var promises = [];

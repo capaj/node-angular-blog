@@ -52,14 +52,12 @@
 //                'js/app/controllers.js',
 //                'js/app/services.js',
 
-                //'js/app/filters.js',
-
-                  //not for production
 
 
             ], function() {
                 $script([
                     'js/app/controllers/home-ctrl.js',
+                    'js/app/controllers/edit-ctrl.js',
                     'js/lib/tinymce/tiny_mce.js',
                     'js/app/facebook.js',
                     'js/lib/ui-bootstrap-0.2.0.js',
@@ -96,7 +94,7 @@
         </ul>
 
         <ul class="nav" ng-show="isAdmin">
-            <li><a href="posts/edit" ng-class="{ on: isAbout }">New post</a></li>
+            <li><a href="/editpost" ng-class="{ on: isAbout }">New post</a></li>
         </ul>
 
         <div id="social" class="social-bar">
