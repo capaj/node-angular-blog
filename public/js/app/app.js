@@ -6,10 +6,6 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
 
         $locationProvider.html5Mode(true);
 
-//        delete $httpProvider.defaults.headers.common['X-Requested-With'];   // needed for functional CORS
-//        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; // needed for functional CORS
-
-
             $routeProvider.when('/', {
                 templateUrl   : '/templates/home.html',
                 controller : 'home'
