@@ -1,4 +1,3 @@
-
 'use strict';
 
 var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.bootstrap'])
@@ -40,13 +39,16 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
             timeout: 30000
         }).success(
             function (data) {
-                if (data.id) {
-                    $rootScope.author = data;
+                if (data === null) {
+
                 } else {    //author not yet registered, so
+                    $rootScope.author = data;
 
                 }
             }
-        );
+        ).error(function (resp) {
+
+        });
 
         facebook.promise.then(function (token) {
             console.log("token: " + token);
@@ -54,7 +56,7 @@ var app = angular.module('node-blog', ['ngSanitize','ngResource', 'ui', 'ui.boot
 
         $q.all([authorInfoPromise, facebook.promise]).then(function () {
             if ($rootScope.author.id === facebook.me.id) {
-                $http.get('/author/' + facebook.token,  {
+                $http.post('/author', facebook.token,  {
                     cache: false,
                     timeout: 30000
                 }).success(function (data) {

@@ -2,9 +2,7 @@ var Post = require('../models/post.js');
 var Tag = require('../models/tag.js');
 var findTagsByNames = require('../apis/tags-api.js').findTagsByNames;
 
-var authentication = function (req, res) {
-    return true;
-};
+var authentication = require('../apis/author-api.js').authenticate;
 
 module.exports = function (app) {
     app.delete('/posts', function(req, res) {
@@ -86,7 +84,13 @@ module.exports = function (app) {
         } else {
             limit = 3;
         }
-        Post.find(req.query).limit(limit).skip(skip).populate('tags').exec(function (err, posts) {
+        var sortOption;   //default
+        if (req.query.sort) {
+            sortOption = req.query.sort;
+        } else {
+            sortOption = -1;
+        }
+        Post.find(req.query).sort({ createdAt: sortOption }).limit(limit).skip(skip).populate('tags').exec(function (err, posts) {
 
             if (posts.hasOwnProperty('length')) {
                 if (req.query.hasOwnProperty('_id')) {
