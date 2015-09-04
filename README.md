@@ -1,6 +1,6 @@
 node-angular-blog
 =================
-DISCLAIMER: it is unfinished and not a very good example of how to write a blog. If you want a blog, you shouldn't use angular. Use backend rendering or isomorphic rendering(react.js) so that your SEO is possible.
+DISCLAIMER: it is unfinished and not a very good example of how to write a blog. If you want a blog, you shouldn't use angular. Use backend rendering or isomorphic rendering(react.js) so that your SEO is possible. [Keystone.js](http://keystonejs.com/) is looking like a much better solution.
 DISCLAIMER END
 
 simple blog based on MEAN stack - nodejs, expressjs, mongoose and angularjs on client side
